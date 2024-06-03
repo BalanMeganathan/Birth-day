@@ -1,0 +1,22 @@
+// src/components/FavouriteBirthdaysList.tsx
+import React from 'react';
+
+interface Birthday {
+  text: string;
+  pages: Array<{ displaytitle: string }>;
+}
+
+const FavouriteBirthdaysList: React.FC<{ favourites: Birthday[] }> = ({ favourites }) => {
+  return (
+    <div>
+      <h2>Favourite Birthdays</h2>
+      {favourites.map((birthday, index) => (
+        <div key={index}>
+          <span>{birthday.text} - {birthday.pages[0].displaytitle}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default FavouriteBirthdaysList;
