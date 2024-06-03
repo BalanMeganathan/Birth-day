@@ -1,0 +1,39 @@
+// src/App.tsx
+import React, { useState } from 'react';
+import Calendar from './components/Calendar';
+import BirthdaysList from './components/BirthdaysList';
+import FavouriteBirthdaysList from './components/FavouriteBirthdaysList';
+import { fetchBirthdays } from './services/birthdaysService';
+
+interface Birthday {
+  text: string;
+  pages: Array<{ displaytitle: string }>;
+}
+
+const App: React.FC = () => {
+  const [birthdays, setBirthdays] = useState<Birthday[]>([]);
+  const [favourites, setFavourites] = useState<Birthday[]>([]);
+
+  const handleDateSelect = async (date: Date | null) => {
+    if (date) {
+      const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+      const fetchedBirthdays = await fetchBirthdays(formattedDate);
+      setBirthdays(fetchedBirthdays);
+    }
+  };
+
+  const handleFavourite = (birthday: Birthday) => {
+    setFavourites([...favourites, birthday]);
+  };
+
+  return (
+    <div>
+      <h1>Birthdays Calendar</h1>
+      <Calendar onSelectDate={handleDateSelect} />
+      <BirthdaysList birthdays={birthdays} onFavourite={handleFavourite} />
+      <FavouriteBirthdaysList favourites={favourites} />
+    </div>
+  );
+};
+
+export default App;
