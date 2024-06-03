@@ -1,0 +1,7 @@
+// src/services/birthdaysService.ts
+import axios from 'axios';
+
+export const fetchBirthdays = async (date: string) => {
+  const response = await axios.get(`https://api.wikimedia.org/feed/onthisday/births/${date}`);
+  return response.data.births;
+};
